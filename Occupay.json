@@ -1,0 +1,319 @@
+{
+  "name": "Occupay",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "occupy",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -520,
+        0
+      ],
+      "id": "8ea466fc-ac6a-48db-9a4b-7c204172115e",
+      "name": "Webhook",
+      "webhookId": "2b3a0bd7-b83e-4b83-8426-e93b26f43679"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1FOaO7_5KKaRFCCyeCyV85opD9biWQbTovRcByRje_p0",
+          "mode": "list",
+          "cachedResultName": "WashroomStatus",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FOaO7_5KKaRFCCyeCyV85opD9biWQbTovRcByRje_p0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FOaO7_5KKaRFCCyeCyV85opD9biWQbTovRcByRje_p0/edit#gid=0"
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -300,
+        0
+      ],
+      "id": "e5ad53d6-dfde-4658-bd1b-0803b1ed38e5",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g5HkoBnylilxdqbD",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0ba4cb8f-8881-4186-8b4e-edc28766c8ce",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "available",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "cb06de7d-76d7-4140-be53-35fa045a9c0b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1FOaO7_5KKaRFCCyeCyV85opD9biWQbTovRcByRje_p0",
+          "mode": "list",
+          "cachedResultName": "WashroomStatus",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FOaO7_5KKaRFCCyeCyV85opD9biWQbTovRcByRje_p0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FOaO7_5KKaRFCCyeCyV85opD9biWQbTovRcByRje_p0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "occupiedBy": "={{ $('Webhook').item.json.body.occupiedBy }}",
+            "type": "={{ $('Webhook').item.json.body.type }}",
+            "timestamp": "={{ $('Webhook').item.json.body.timestamp }}",
+            "status": "occupied",
+            "row_number": "2"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "occupiedBy",
+              "displayName": "occupiedBy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        140,
+        -140
+      ],
+      "id": "64d95f09-c74e-439a-9f99-109cd230a167",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g5HkoBnylilxdqbD",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "-4614453396",
+        "text": "=🚻 Washroom is OCCUPIED by   {{ $json.occupiedBy }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        320,
+        -140
+      ],
+      "id": "d089ccb5-0053-4913-8d9f-0090b19f607e",
+      "name": "Telegram",
+      "webhookId": "c0f9544a-5c24-4007-afbb-d4e89a375602",
+      "credentials": {
+        "telegramApi": {
+          "id": "z7RcQeIRlPiRUo81",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"message\": \"🚫 Washroom is already occupied\",\n  \"occupiedBy\": \"{{ $json.occupiedBy }}\",\n  \"requestedBy\": \"{{ $('Webhook').item.json.body.occupiedBy }}\"\n}\n",
+        "options": {
+          "responseCode": 409
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        160,
+        120
+      ],
+      "id": "3716c569-e32c-4c50-a93c-349c334d8b56",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"message\": \"Congratulation , Booking Sucessufully!!!\",\n  \"occupiedBy\": \"{{ $('Google Sheets1').item.json.occupiedBy }}\"\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        540,
+        -140
+      ],
+      "id": "9508c9e6-f4db-40b9-a7b4-1ffa6b84db02",
+      "name": "Respond to Webhook1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9337b732-8b60-436b-bb40-293dc404da94",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "281e975874e64133fdfe0be959a305dc0c87c97a35efc3bba3e08274e69e2033"
+  },
+  "id": "3aXP4X2DgRosT0HD",
+  "tags": []
+}

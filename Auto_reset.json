@@ -1,0 +1,278 @@
+{
+  "name": "Auto reset",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -360,
+        0
+      ],
+      "id": "19dfc9b7-18d6-4ed9-a462-047cf719fb79",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1FOaO7_5KKaRFCCyeCyV85opD9biWQbTovRcByRje_p0",
+          "mode": "list",
+          "cachedResultName": "WashroomStatus",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FOaO7_5KKaRFCCyeCyV85opD9biWQbTovRcByRje_p0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FOaO7_5KKaRFCCyeCyV85opD9biWQbTovRcByRje_p0/edit#gid=0"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -180,
+        0
+      ],
+      "id": "7f1ebb68-5fff-4146-bc7c-82d1d434349d",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g5HkoBnylilxdqbD",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "233bf493-11a9-41f5-8dcf-477df69bdc7d",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "occupied",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        40,
+        0
+      ],
+      "id": "c1f7dc95-088a-417a-841e-a5c5c4f352ac",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1FOaO7_5KKaRFCCyeCyV85opD9biWQbTovRcByRje_p0",
+          "mode": "list",
+          "cachedResultName": "WashroomStatus",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FOaO7_5KKaRFCCyeCyV85opD9biWQbTovRcByRje_p0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FOaO7_5KKaRFCCyeCyV85opD9biWQbTovRcByRje_p0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "2",
+            "status": "available",
+            "occupiedBy": "=",
+            "type": "=",
+            "timestamp": "="
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "occupiedBy",
+              "displayName": "occupiedBy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        240,
+        -120
+      ],
+      "id": "15928dc5-753a-494f-b955-49b2a56775cc",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "g5HkoBnylilxdqbD",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "-4614453396",
+        "text": "Washroom Is available Now.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        -120
+      ],
+      "id": "b9bdaca1-8109-46fa-b210-19eb7cd40300",
+      "name": "Telegram",
+      "webhookId": "9c986c2d-b8fa-4e5f-a482-400af25bc8a9",
+      "credentials": {
+        "telegramApi": {
+          "id": "z7RcQeIRlPiRUo81",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1f675b64-1530-4a8e-b060-f64a567035f0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "281e975874e64133fdfe0be959a305dc0c87c97a35efc3bba3e08274e69e2033"
+  },
+  "id": "niYO1Ff1r0Rn7PyD",
+  "tags": []
+}
